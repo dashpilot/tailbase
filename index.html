@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tailbase - CSS Framework</title>
+		<link rel="stylesheet" href="tailbase.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			.demo-section {
+				background: white;
+				border: 1px solid var(--gray-200);
+				border-radius: var(--radius-xl);
+				padding: var(--spacing-8);
+				margin-bottom: var(--spacing-8);
+				box-shadow: var(--shadow);
+			}
+			.demo-header {
+				border-bottom: 1px solid var(--gray-200);
+				padding-bottom: var(--spacing-4);
+				margin-bottom: var(--spacing-6);
+			}
+			.demo-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: var(--spacing-4);
+				margin: var(--spacing-4) 0;
+			}
+			.code-block {
+				background: var(--gray-900);
+				color: #e5e7eb;
+				padding: var(--spacing-4);
+				border-radius: var(--radius);
+				font-family: 'Monaco', 'Menlo', monospace;
+				font-size: 0.875rem;
+				overflow-x: auto;
+				margin: var(--spacing-4) 0;
+			}
+			.color-swatch {
+				width: 100%;
+				height: 60px;
+				border-radius: var(--radius);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: white;
+				font-weight: 600;
+				font-size: 0.875rem;
+				text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+			}
+			.component-example {
+				border: 1px dashed var(--gray-300);
+				padding: var(--spacing-4);
+				border-radius: var(--radius);
+				margin: var(--spacing-4) 0;
+				background: var(--gray-50);
+			}
+			.sidebar {
+				position: sticky;
+				top: var(--spacing-4);
+				background: white;
+				border: 1px solid var(--gray-200);
+				border-radius: var(--radius-xl);
+				padding: var(--spacing-6);
+				box-shadow: var(--shadow);
+			}
+			.toc-link {
+				display: block;
+				padding: var(--spacing-2) 0;
+				color: var(--gray-600);
+				text-decoration: none;
+				border-bottom: 1px solid transparent;
+				transition: var(--transition);
+			}
+			.toc-link:hover {
+				color: var(--primary);
+				border-bottom-color: var(--primary);
+			}
+			.page-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 var(--spacing-4);
+			}
+			.main-content {
+				display: grid;
+				grid-template-columns: 250px 1fr;
+				gap: var(--spacing-8);
+				margin-top: var(--spacing-8);
+			}
+			@media (max-width: 968px) {
+				.main-content {
+					grid-template-columns: 1fr;
+				}
+				.sidebar {
+					order: 2;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar">
+			<a href="#" class="navbar-brand">Tailbase</a>
+			<ul class="navbar-nav">
+				<li><a href="#typography" class="nav-link">Typography</a></li>
+				<li><a href="#buttons" class="nav-link">Buttons</a></li>
+				<li><a href="#cards" class="nav-link">Cards</a></li>
+				<li><a href="#components" class="nav-link">Components</a></li>
+			</ul>
+		</nav>
+
+		<div class="page-container">
+			<!-- Header -->
+			<header class="text-center mb-5 fade-in" style="padding: var(--spacing-12) 0">
+				<h1 class="mb-4">Tailbase</h1>
+				<p class="text-lg text-muted mb-4">
+					Modern CSS framework combining Bootstrap's components with Tailwind's utility-first
+					approach
+				</p>
+				<div class="text-muted">
+					<p class="mb-2">Bootstrap naming conventions + Tailwind's modern design aesthetic</p>
+					<p class="mb-2">Complete component library with utility classes</p>
+					<p class="mb-0">Zero learning curve - familiar syntax, beautiful results</p>
+				</div>
+			</header>
+
+			<div class="main-content">
+				<!-- Sidebar Navigation -->
+				<nav class="sidebar">
+					<h6 class="font-semibold mb-4">Components</h6>
+					<a href="#grid" class="toc-link">Grid System</a>
+					<a href="#colors" class="toc-link">Colors</a>
+					<a href="#typography" class="toc-link">Typography</a>
+					<a href="#buttons" class="toc-link">Buttons</a>
+					<a href="#button-groups" class="toc-link">Button Groups</a>
+					<a href="#forms" class="toc-link">Forms</a>
+					<a href="#cards" class="toc-link">Cards</a>
+					<a href="#alerts" class="toc-link">Alerts</a>
+					<a href="#badges" class="toc-link">Badges</a>
+					<a href="#progress" class="toc-link">Progress</a>
+					<a href="#pagination" class="toc-link">Pagination</a>
+					<a href="#breadcrumb" class="toc-link">Breadcrumb</a>
+					<a href="#tabs" class="toc-link">Tabs</a>
+					<a href="#list-groups" class="toc-link">List Groups</a>
+					<a href="#carousel" class="toc-link">Carousel</a>
+					<a href="#modal" class="toc-link">Modal</a>
+					<a href="#utilities" class="toc-link">Utilities</a>
+				</nav>
+
+				<!-- Main Content -->
+				<main>
+					<!-- Grid System Section -->
+					<section id="grid" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Grid System</h2>
+							<p class="text-muted mb-0">
+								Bootstrap 5 grid system with containers, rows, and columns
+							</p>
+						</div>
+
+						<div class="component-example">
+							<h6 class="mb-3">Container</h6>
+							<div
+								style="
+									background: #f8f9fa;
+									border: 1px solid #dee2e6;
+									border-radius: 0.375rem;
+									padding: 1rem;
+									margin-bottom: 1.5rem;
+									max-width: 1320px;
+									margin-left: auto;
+									margin-right: auto;
+								"
+							>
+								<p class="mb-0 text-center">Container with max-width and responsive breakpoints</p>
+							</div>
+
+							<h6 class="mb-3">Grid Columns</h6>
+							<div style="width: 100%; padding-left: 0.75rem; padding-right: 0.75rem">
+								<div class="row mb-3">
+									<div class="col-6">
+										<div class="bg-primary text-white text-center py-2 rounded">col-6</div>
+									</div>
+									<div class="col-6">
+										<div class="bg-success text-white text-center py-2 rounded">col-6</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col-4">
+										<div class="bg-warning text-white text-center py-2 rounded">col-4</div>
+									</div>
+									<div class="col-4">
+										<div class="bg-danger text-white text-center py-2 rounded">col-4</div>
+									</div>
+									<div class="col-4">
+										<div class="bg-info text-white text-center py-2 rounded">col-4</div>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col-md-8">
+										<div
+											class="bg-dark text-center py-2 rounded me-2"
+											style="color: white !important"
+										>
+											col-md-8
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="bg-secondary text-white text-center py-2 rounded">col-md-4</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="container"&gt; &lt;div class="row"&gt; &lt;div class="col-6"&gt;Half
+							width&lt;/div&gt; &lt;div class="col-6"&gt;Half width&lt;/div&gt; &lt;/div&gt; &lt;div
+							class="row"&gt; &lt;div class="col-md-8"&gt;Two thirds on medium+&lt;/div&gt; &lt;div
+							class="col-md-4"&gt;One third on medium+&lt;/div&gt; &lt;/div&gt; &lt;/div&gt;
+							Responsive: .col-sm-*, .col-md-*, .col-lg-*, .col-xl-*
+						</div>
+					</section>
+
+					<!-- Colors Section -->
+					<section id="colors" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Color System</h2>
+							<p class="text-muted mb-0">Consistent color palette using CSS custom properties</p>
+						</div>
+
+						<div class="demo-grid">
+							<div class="color-swatch" style="background: var(--primary)">Primary</div>
+							<div class="color-swatch" style="background: var(--success)">Success</div>
+							<div class="color-swatch" style="background: var(--warning)">Warning</div>
+							<div class="color-swatch" style="background: var(--danger)">Danger</div>
+							<div class="color-swatch" style="background: var(--info)">Info</div>
+							<div class="color-swatch" style="background: var(--dark)">Dark</div>
+						</div>
+
+						<div class="code-block">
+							--primary: #3b82f6; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --info:
+							#06b6d4; --dark: #1a1a1a;
+						</div>
+					</section>
+
+					<!-- Typography Section -->
+					<section id="typography" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Typography</h2>
+							<p class="text-muted mb-0">Responsive typography scale with utility classes</p>
+						</div>
+
+						<div class="component-example">
+							<h1>Heading 1</h1>
+							<h2>Heading 2</h2>
+							<h3>Heading 3</h3>
+							<h4>Heading 4</h4>
+							<h5>Heading 5</h5>
+							<h6>Heading 6</h6>
+							<p>
+								This is a paragraph with some <span class="text-primary">colored text</span> and
+								<span class="font-bold">bold text</span>.
+							</p>
+							<p class="text-muted">This is muted text using the text-muted class.</p>
+						</div>
+
+						<div class="code-block">
+							&lt;h1&gt;Heading 1&lt;/h1&gt; &lt;p class="text-primary"&gt;Primary colored
+							text&lt;/p&gt; &lt;p class="text-muted font-bold"&gt;Muted bold text&lt;/p&gt;
+							Classes: .text-primary, .text-success, .text-warning, .text-danger, .text-muted Font
+							weights: .font-light, .font-normal, .font-medium, .font-semibold, .font-bold
+						</div>
+					</section>
+
+					<!-- Buttons Section -->
+					<section id="buttons" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Buttons</h2>
+							<p class="text-muted mb-0">Various button styles and sizes with hover effects</p>
+						</div>
+
+						<div class="component-example">
+							<h6 class="mb-3">Button Variants</h6>
+							<div
+								class="d-flex"
+								style="gap: var(--spacing-3); flex-wrap: wrap; margin-bottom: var(--spacing-4)"
+							>
+								<button class="btn btn-primary">Primary</button>
+								<button class="btn btn-secondary">Secondary</button>
+								<button class="btn btn-success">Success</button>
+								<button class="btn btn-warning">Warning</button>
+								<button class="btn btn-danger">Danger</button>
+								<button class="btn btn-dark">Dark</button>
+								<button class="btn btn-outline-primary">Outline</button>
+							</div>
+
+							<h6 class="mb-3">Button Sizes</h6>
+							<div
+								class="d-flex"
+								style="gap: var(--spacing-3); align-items: center; flex-wrap: wrap"
+							>
+								<button class="btn btn-primary btn-sm">Small</button>
+								<button class="btn btn-primary">Default</button>
+								<button class="btn btn-primary btn-lg">Large</button>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt; &lt;button class="btn
+							btn-outline-primary"&gt;Outline&lt;/button&gt; &lt;button class="btn btn-primary
+							btn-lg"&gt;Large&lt;/button&gt; Variants: .btn-primary, .btn-secondary, .btn-success,
+							.btn-warning, .btn-danger, .btn-dark Outlines: .btn-outline-primary Sizes: .btn-sm,
+							.btn-lg
+						</div>
+					</section>
+
+					<!-- Button Groups Section -->
+					<section id="button-groups" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Button Groups</h2>
+							<p class="text-muted mb-0">Group related buttons together</p>
+						</div>
+
+						<div class="component-example">
+							<div class="btn-group mb-4">
+								<button class="btn btn-outline-primary">Left</button>
+								<button class="btn btn-primary">Middle</button>
+								<button class="btn btn-outline-primary">Right</button>
+							</div>
+
+							<div class="btn-group">
+								<button class="btn btn-secondary">One</button>
+								<button class="btn btn-secondary">Two</button>
+								<button class="btn btn-secondary">Three</button>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="btn-group"&gt; &lt;button class="btn
+							btn-outline-primary"&gt;Left&lt;/button&gt; &lt;button class="btn
+							btn-primary"&gt;Middle&lt;/button&gt; &lt;button class="btn
+							btn-outline-primary"&gt;Right&lt;/button&gt; &lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Forms Section -->
+					<section id="forms" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Forms</h2>
+							<p class="text-muted mb-0">Form controls, inputs, checkboxes, and selects</p>
+						</div>
+
+						<div class="component-example">
+							<div class="row" style="--bs-gutter-x: 2rem">
+								<div class="col-md-6">
+									<div style="margin-right: 1rem">
+										<h6 class="mb-3">Text Inputs</h6>
+										<div class="mb-3">
+											<label class="form-label">Email address</label>
+											<input type="email" class="form-control" placeholder="name@example.com" />
+											<div class="form-text">We'll never share your email with anyone else.</div>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Password</label>
+											<input type="password" class="form-control" />
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Large input</label>
+											<input
+												type="text"
+												class="form-control form-control-lg"
+												placeholder="Large input"
+											/>
+										</div>
+										<div class="mb-4 mb-md-0">
+											<label class="form-label">Small input</label>
+											<input
+												type="text"
+												class="form-control form-control-sm"
+												placeholder="Small input"
+											/>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div style="margin-left: 1rem">
+										<h6 class="mb-3">Select & Checkboxes</h6>
+										<div class="mb-3">
+											<label class="form-label">Select option</label>
+											<select class="form-select">
+												<option selected>Choose...</option>
+												<option value="1">One</option>
+												<option value="2">Two</option>
+												<option value="3">Three</option>
+											</select>
+										</div>
+										<div class="form-check mb-2">
+											<input
+												class="form-check-input"
+												type="checkbox"
+												value=""
+												id="flexCheckDefault"
+											/>
+											<label class="form-check-label" for="flexCheckDefault"
+												>Default checkbox</label
+											>
+										</div>
+										<div class="form-check mb-2">
+											<input
+												class="form-check-input"
+												type="checkbox"
+												value=""
+												id="flexCheckChecked"
+												checked
+											/>
+											<label class="form-check-label" for="flexCheckChecked"
+												>Checked checkbox</label
+											>
+										</div>
+										<div class="form-check mb-2">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="flexRadioDefault"
+												id="flexRadioDefault1"
+											/>
+											<label class="form-check-label" for="flexRadioDefault1">Default radio</label>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="flexRadioDefault"
+												id="flexRadioDefault2"
+												checked
+											/>
+											<label class="form-check-label" for="flexRadioDefault2">Checked radio</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="mb-3"&gt; &lt;label class="form-label"&gt;Email&lt;/label&gt; &lt;input
+							type="email" class="form-control" placeholder="name@example.com"&gt; &lt;div
+							class="form-text"&gt;Help text&lt;/div&gt; &lt;/div&gt; &lt;select
+							class="form-select"&gt; &lt;option&gt;Choose...&lt;/option&gt; &lt;/select&gt; &lt;div
+							class="form-check"&gt; &lt;input class="form-check-input" type="checkbox"
+							id="check1"&gt; &lt;label class="form-check-label"
+							for="check1"&gt;Checkbox&lt;/label&gt; &lt;/div&gt; Sizes: .form-control-sm,
+							.form-control-lg
+						</div>
+					</section>
+
+					<!-- Cards Section -->
+					<section id="cards" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Cards</h2>
+							<p class="text-muted mb-0">
+								Flexible content containers with headers, bodies, and footers
+							</p>
+						</div>
+
+						<div class="demo-grid">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title">Card with Header</h5>
+								</div>
+								<div class="card-body">
+									<p class="card-text">This card has a header, body, and footer section.</p>
+								</div>
+								<div class="card-footer">
+									<button class="btn btn-primary btn-sm">Action</button>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">Simple Card</h5>
+									<p class="card-text">
+										This is a simple card with just a body section containing some example text.
+									</p>
+									<button class="btn btn-outline-primary btn-sm">Learn More</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="card"&gt; &lt;div class="card-header"&gt; &lt;h5
+							class="card-title"&gt;Card Title&lt;/h5&gt; &lt;/div&gt; &lt;div class="card-body"&gt;
+							&lt;p class="card-text"&gt;Card content&lt;/p&gt; &lt;/div&gt; &lt;div
+							class="card-footer"&gt; &lt;button class="btn btn-primary"&gt;Action&lt;/button&gt;
+							&lt;/div&gt; &lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Alerts Section -->
+					<section id="alerts" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Alerts</h2>
+							<p class="text-muted mb-0">Contextual feedback messages</p>
+						</div>
+
+						<div class="component-example">
+							<div class="alert alert-primary">
+								<strong>Info!</strong> This is a primary alert with some important information.
+							</div>
+							<div class="alert alert-success">
+								<strong>Success!</strong> Your action was completed successfully.
+							</div>
+							<div class="alert alert-warning">
+								<strong>Warning!</strong> Please review this information carefully.
+							</div>
+							<div class="alert alert-danger mb-0">
+								<strong>Error!</strong> There was a problem with your request.
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="alert alert-primary"&gt;Primary alert&lt;/div&gt; &lt;div class="alert
+							alert-success"&gt;Success alert&lt;/div&gt; &lt;div class="alert
+							alert-warning"&gt;Warning alert&lt;/div&gt; &lt;div class="alert
+							alert-danger"&gt;Danger alert&lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Badges Section -->
+					<section id="badges" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Badges</h2>
+							<p class="text-muted mb-0">Small labels and indicators</p>
+						</div>
+
+						<div class="component-example">
+							<h5>Example Heading <span class="badge badge-primary">New</span></h5>
+							<p class="mb-4">Here are some badge examples:</p>
+							<div style="display: flex; gap: var(--spacing-2); flex-wrap: wrap">
+								<span class="badge badge-primary">Primary</span>
+								<span class="badge badge-success">Success</span>
+								<span class="badge badge-warning">Warning</span>
+								<span class="badge badge-danger">Danger</span>
+								<span class="badge badge-info">Info</span>
+								<span class="badge badge-light">Light</span>
+								<span class="badge badge-dark">Dark</span>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;span class="badge badge-primary"&gt;Primary&lt;/span&gt; &lt;span class="badge
+							badge-success"&gt;Success&lt;/span&gt; &lt;span class="badge
+							badge-warning"&gt;Warning&lt;/span&gt; Colors: .badge-primary, .badge-success,
+							.badge-warning, .badge-danger, .badge-info, .badge-light, .badge-dark
+						</div>
+					</section>
+
+					<!-- Progress Section -->
+					<section id="progress" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Progress Bars</h2>
+							<p class="text-muted mb-0">Indicate the progress of a task or loading state</p>
+						</div>
+
+						<div class="component-example">
+							<h6 class="mb-3">Basic Progress</h6>
+							<div class="progress mb-3">
+								<div class="progress-bar" style="width: 25%"></div>
+							</div>
+							<div class="progress mb-3">
+								<div class="progress-bar bg-success" style="width: 50%">50%</div>
+							</div>
+							<div class="progress mb-4">
+								<div class="progress-bar bg-warning" style="width: 75%"></div>
+							</div>
+
+							<h6 class="mb-3">Striped & Animated</h6>
+							<div class="progress mb-3">
+								<div class="progress-bar progress-bar-striped" style="width: 60%"></div>
+							</div>
+							<div class="progress">
+								<div
+									class="progress-bar progress-bar-striped progress-bar-animated"
+									style="width: 40%"
+								></div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="progress"&gt; &lt;div class="progress-bar" style="width:
+							25%"&gt;&lt;/div&gt; &lt;/div&gt; &lt;div class="progress"&gt; &lt;div
+							class="progress-bar bg-success" style="width: 50%"&gt;50%&lt;/div&gt; &lt;/div&gt;
+							&lt;div class="progress"&gt; &lt;div class="progress-bar progress-bar-striped
+							progress-bar-animated" style="width: 75%"&gt;&lt;/div&gt; &lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Pagination Section -->
+					<section id="pagination" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Pagination</h2>
+							<p class="text-muted mb-0">Navigation for paginated content</p>
+						</div>
+
+						<div class="component-example">
+							<nav>
+								<ul class="pagination">
+									<li class="page-item disabled">
+										<a class="page-link">Previous</a>
+									</li>
+									<li class="page-item active">
+										<a class="page-link" href="#">1</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#">2</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#">3</a>
+									</li>
+									<li class="page-item">
+										<a class="page-link" href="#">Next</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+
+						<div class="code-block">
+							&lt;nav&gt; &lt;ul class="pagination"&gt; &lt;li class="page-item disabled"&gt; &lt;a
+							class="page-link"&gt;Previous&lt;/a&gt; &lt;/li&gt; &lt;li class="page-item
+							active"&gt; &lt;a class="page-link" href="#"&gt;1&lt;/a&gt; &lt;/li&gt; &lt;li
+							class="page-item"&gt; &lt;a class="page-link" href="#"&gt;2&lt;/a&gt; &lt;/li&gt;
+							&lt;li class="page-item"&gt; &lt;a class="page-link" href="#"&gt;Next&lt;/a&gt;
+							&lt;/li&gt; &lt;/ul&gt; &lt;/nav&gt;
+						</div>
+					</section>
+
+					<!-- Breadcrumb Section -->
+					<section id="breadcrumb" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Breadcrumb</h2>
+							<p class="text-muted mb-0">Navigation hierarchy indicator</p>
+						</div>
+
+						<div class="component-example">
+							<nav>
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="#">Home</a></li>
+									<li class="breadcrumb-item"><a href="#">Library</a></li>
+									<li class="breadcrumb-item active">Data</li>
+								</ol>
+							</nav>
+						</div>
+
+						<div class="code-block">
+							&lt;nav&gt; &lt;ol class="breadcrumb"&gt; &lt;li class="breadcrumb-item"&gt;&lt;a
+							href="#"&gt;Home&lt;/a&gt;&lt;/li&gt; &lt;li class="breadcrumb-item"&gt;&lt;a
+							href="#"&gt;Library&lt;/a&gt;&lt;/li&gt; &lt;li class="breadcrumb-item
+							active"&gt;Data&lt;/li&gt; &lt;/ol&gt; &lt;/nav&gt;
+						</div>
+					</section>
+
+					<!-- Tabs Section -->
+					<section id="tabs" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Tabs</h2>
+							<p class="text-muted mb-0">Tabbed navigation and content panels</p>
+						</div>
+
+						<div class="component-example">
+							<ul class="nav nav-tabs">
+								<li class="nav-item">
+									<a class="nav-link active" href="#tab1" onclick="showTab('tab1', this)">Home</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#tab2" onclick="showTab('tab2', this)">Profile</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#tab3" onclick="showTab('tab3', this)">Contact</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="tab1">
+									<h5>Home Content</h5>
+									<p>This is the home tab content. It contains information about the homepage.</p>
+								</div>
+								<div class="tab-pane" id="tab2">
+									<h5>Profile Content</h5>
+									<p>This is the profile tab content. Here you can manage your profile settings.</p>
+								</div>
+								<div class="tab-pane" id="tab3">
+									<h5>Contact Content</h5>
+									<p>This is the contact tab content. Get in touch with us through this form.</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;ul class="nav nav-tabs"&gt; &lt;li class="nav-item"&gt; &lt;a class="nav-link
+							active" href="#tab1"&gt;Home&lt;/a&gt; &lt;/li&gt; &lt;li class="nav-item"&gt; &lt;a
+							class="nav-link" href="#tab2"&gt;Profile&lt;/a&gt; &lt;/li&gt; &lt;/ul&gt; &lt;div
+							class="tab-content"&gt; &lt;div class="tab-pane active" id="tab1"&gt;Home
+							content&lt;/div&gt; &lt;div class="tab-pane" id="tab2"&gt;Profile content&lt;/div&gt;
+							&lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- List Groups Section -->
+					<section id="list-groups" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>List Groups</h2>
+							<p class="text-muted mb-0">Flexible component for displaying lists of content</p>
+						</div>
+
+						<div class="demo-grid">
+							<div class="list-group">
+								<div class="list-group-item active">Active item</div>
+								<div class="list-group-item">Regular item</div>
+								<div class="list-group-item">Another item</div>
+								<div class="list-group-item">Fourth item</div>
+							</div>
+
+							<div class="list-group">
+								<a href="#" class="list-group-item">Link item 1</a>
+								<a href="#" class="list-group-item">Link item 2</a>
+								<a href="#" class="list-group-item">Link item 3</a>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="list-group"&gt; &lt;div class="list-group-item active"&gt;Active
+							item&lt;/div&gt; &lt;div class="list-group-item"&gt;Regular item&lt;/div&gt; &lt;a
+							href="#" class="list-group-item"&gt;Link item&lt;/a&gt; &lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Carousel Section -->
+					<section id="carousel" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Carousel</h2>
+							<p class="text-muted mb-0">Image slideshow component with navigation</p>
+						</div>
+
+						<div class="component-example">
+							<div class="carousel" id="demo-carousel">
+								<div class="carousel-inner">
+									<div class="carousel-item active">
+										<img
+											src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop&crop=center"
+											alt="Slide 1"
+										/>
+									</div>
+									<div class="carousel-item">
+										<img
+											src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop&crop=center"
+											alt="Slide 2"
+										/>
+									</div>
+									<div class="carousel-item">
+										<img
+											src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=400&fit=crop&crop=center"
+											alt="Slide 3"
+										/>
+									</div>
+								</div>
+								<button class="carousel-control carousel-control-prev" onclick="prevSlide()">
+									<svg
+										width="20"
+										height="20"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<polyline points="15,18 9,12 15,6"></polyline>
+									</svg>
+								</button>
+								<button class="carousel-control carousel-control-next" onclick="nextSlide()">
+									<svg
+										width="20"
+										height="20"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<polyline points="9,18 15,12 9,6"></polyline>
+									</svg>
+								</button>
+								<div class="carousel-indicators">
+									<button class="carousel-indicator active" onclick="goToSlide(0)"></button>
+									<button class="carousel-indicator" onclick="goToSlide(1)"></button>
+									<button class="carousel-indicator" onclick="goToSlide(2)"></button>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="carousel"&gt; &lt;div class="carousel-inner"&gt; &lt;div
+							class="carousel-item active"&gt; &lt;img src="image1.jpg" alt="Slide 1"&gt;
+							&lt;/div&gt; &lt;div class="carousel-item"&gt; &lt;img src="image2.jpg" alt="Slide
+							2"&gt; &lt;/div&gt; &lt;/div&gt; &lt;button class="carousel-control
+							carousel-control-prev"&gt;Previous&lt;/button&gt; &lt;button class="carousel-control
+							carousel-control-next"&gt;Next&lt;/button&gt; &lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Modal Section -->
+					<section id="modal" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Modal</h2>
+							<p class="text-muted mb-0">Dialog overlay for important content</p>
+						</div>
+
+						<div class="component-example">
+							<button class="btn btn-primary" onclick="openModal()">Open Modal</button>
+
+							<div class="modal" id="demo-modal">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Modal Title</h5>
+											<button class="btn-close" onclick="closeModal()"></button>
+										</div>
+										<div class="modal-body">
+											<p>
+												This is the modal body content. You can put any content here including
+												forms, images, or other components.
+											</p>
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-secondary" onclick="closeModal()">Close</button>
+											<button class="btn btn-primary">Save Changes</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							&lt;div class="modal" id="myModal"&gt; &lt;div class="modal-dialog"&gt; &lt;div
+							class="modal-content"&gt; &lt;div class="modal-header"&gt; &lt;h5
+							class="modal-title"&gt;Modal Title&lt;/h5&gt; &lt;button
+							class="btn-close"&gt;&lt;/button&gt; &lt;/div&gt; &lt;div class="modal-body"&gt;Modal
+							content&lt;/div&gt; &lt;div class="modal-footer"&gt; &lt;button class="btn
+							btn-primary"&gt;Save&lt;/button&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt;
+							&lt;/div&gt;
+						</div>
+					</section>
+
+					<!-- Utilities Section -->
+					<section id="utilities" class="demo-section fade-in">
+						<div class="demo-header">
+							<h2>Utility Classes</h2>
+							<p class="text-muted mb-0">Helper classes for common styling needs</p>
+						</div>
+
+						<div class="component-example">
+							<h6 class="mb-3">Display</h6>
+							<div class="mb-4">
+								<div class="d-block p-3 rounded" style="background: var(--gray-100)">
+									Block element
+								</div>
+								<span class="d-inline-flex p-3 rounded" style="background: var(--gray-100)"
+									>Inline flex</span
+								>
+							</div>
+
+							<h6 class="mb-3">Text Alignment</h6>
+							<div class="mb-4">
+								<p class="text-left">Left aligned text</p>
+								<p class="text-center">Center aligned text</p>
+								<p class="text-right mb-0">Right aligned text</p>
+							</div>
+
+							<h6 class="mb-3">Spacing</h6>
+							<div style="display: flex; gap: var(--spacing-3)">
+								<div class="p-3 rounded" style="background: var(--primary); color: white">p-3</div>
+								<div class="p-4 rounded" style="background: var(--success); color: white">p-4</div>
+								<div class="p-5 rounded" style="background: var(--warning); color: white">p-5</div>
+							</div>
+						</div>
+
+						<div class="code-block">
+							Grid: .container, .row, .col-{1-12}, .col-md-{1-12} Display: .d-none, .d-block,
+							.d-flex, .d-inline-flex Text: .text-left, .text-center, .text-right, .text-uppercase,
+							.text-lowercase Spacing: .m-{0-5}, .mt-{0-5}, .mb-{0-5}, .ms-{0-5}, .me-{0-5},
+							.mx-{0-5}, .my-{0-5} Padding: .p-{0-5}, .pt-{0-5}, .pb-{0-5}, .ps-{0-5}, .pe-{0-5},
+							.px-{0-5}, .py-{0-5} Sizing: .w-{25|50|75|100}, .h-{25|50|75|100} Flex: .flex-row,
+							.flex-column, .justify-content-{start|center|end|between} Background:
+							.bg-{primary|success|warning|danger|info|light|dark|white} Border: .border,
+							.border-{0|top|bottom|start|end}, .border-{primary|success|etc} Position:
+							.position-{static|relative|absolute|fixed|sticky} Border Radius: .rounded,
+							.rounded-lg, .rounded-xl, .rounded-full Shadow: .shadow, .shadow-md, .shadow-lg,
+							.shadow-xl
+						</div>
+					</section>
+				</main>
+			</div>
+		</div>
+
+		<script src="tailbase.js"></script>
+		<script>
+			// Demo-specific JavaScript
+			function openModal() {
+				window.openModal('demo-modal');
+			}
+
+			function closeModal() {
+				window.closeModal('demo-modal');
+			}
+		</script>
+	</body>
+</html>

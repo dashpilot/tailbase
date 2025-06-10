@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tailbase Demo</title>
+		<link rel="stylesheet" href="tailbase.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			/* Custom carousel styles for demo2.html */
+			.carousel {
+				width: 100%;
+				max-width: 1200px;
+				margin: 0 auto;
+				background: white;
+				border-radius: 16px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+				position: relative;
+				outline: none;
+			}
+
+			.carousel-container {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				min-height: 600px;
+			}
+
+			/* Image Section */
+			.image-section {
+				position: relative;
+				overflow: hidden;
+				background: #f8f9fa;
+			}
+
+			.image-container {
+				position: relative;
+				width: 100%;
+				height: 100%;
+			}
+
+			.image-slide {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				transform: translateX(100%);
+				transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+
+			.image-slide.active {
+				opacity: 1;
+				transform: translateX(0);
+			}
+
+			.image-slide.prev {
+				transform: translateX(-100%);
+			}
+
+			.image-slide.next {
+				transform: translateX(100%);
+			}
+
+			.image-slide img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				filter: grayscale(10%);
+				transition: filter 0.3s ease;
+			}
+
+			.carousel:hover .image-slide.active img {
+				filter: grayscale(0%);
+			}
+
+			/* Navigation Overlay */
+			.nav-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 24px;
+				opacity: 0;
+				transition: opacity 0.3s ease;
+			}
+
+			.carousel:hover .nav-overlay {
+				opacity: 1;
+			}
+
+			.nav-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 48px;
+				height: 48px;
+				background: rgba(255, 255, 255, 0.9);
+				border: none;
+				border-radius: 50%;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				backdrop-filter: blur(10px);
+			}
+
+			.nav-btn:hover {
+				background: white;
+				transform: scale(1.1);
+			}
+
+			.nav-btn:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+				transform: none;
+			}
+
+			/* Content Section */
+			.content-section {
+				padding: 48px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				background: white;
+			}
+
+			.content-container {
+				max-width: 400px;
+			}
+
+			.content-header {
+				margin-bottom: 32px;
+			}
+
+			.model-name {
+				font-size: 48px;
+				font-weight: 800;
+				line-height: 1.1;
+				color: #1a1a1a;
+				margin: 0 0 8px 0;
+				letter-spacing: -0.02em;
+			}
+
+			.model-location {
+				font-size: 16px;
+				color: #6b7280;
+				margin: 0 0 16px 0;
+				font-weight: 400;
+			}
+
+			.model-category {
+				display: inline-block;
+				background: #f3f4f6;
+				color: #374151;
+				padding: 6px 12px;
+				border-radius: 20px;
+				font-size: 14px;
+				font-weight: 500;
+			}
+
+			.content-body {
+				margin-bottom: 32px;
+			}
+
+			.model-description {
+				font-size: 16px;
+				line-height: 1.6;
+				color: #4b5563;
+				margin: 0;
+			}
+
+			.content-footer {
+				margin-bottom: 40px;
+			}
+
+			.cta-button {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				background: #1a1a1a;
+				color: white;
+				border: none;
+				padding: 12px 24px;
+				border-radius: 8px;
+				font-size: 14px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			.cta-button:hover {
+				background: #333;
+				transform: translateY(-2px);
+			}
+
+			/* Slide Indicators */
+			.slide-indicators {
+				margin-top: auto;
+			}
+
+			.indicators-container {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+			}
+
+			.indicator-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 32px;
+				height: 32px;
+				background: transparent;
+				border: 1px solid #e5e7eb;
+				border-radius: 50%;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.indicator-btn:hover {
+				background: #f9fafb;
+				border-color: #d1d5db;
+			}
+
+			.slide-counter {
+				font-size: 16px;
+				font-weight: 600;
+				color: #1a1a1a;
+				min-width: 60px;
+				text-align: center;
+			}
+
+			/* Dot Indicators */
+			.dot-indicators {
+				position: absolute;
+				bottom: 24px;
+				left: 50%;
+				transform: translateX(-50%);
+				display: flex;
+				gap: 8px;
+				z-index: 10;
+			}
+
+			.dot {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				border: none;
+				background: rgba(255, 255, 255, 0.5);
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.dot.active {
+				background: white;
+				transform: scale(1.2);
+			}
+
+			.dot:hover {
+				background: rgba(255, 255, 255, 0.8);
+			}
+
+			/* Additional styles for Tailbase demo */
+			.header {
+				text-align: center;
+				margin-bottom: 48px;
+				animation: fadeIn 0.8s ease-out;
+			}
+
+			.title {
+				font-size: 48px;
+				font-weight: 800;
+				color: #1a1a1a;
+				margin: 0 0 16px 0;
+				letter-spacing: -0.02em;
+			}
+
+			.subtitle {
+				font-size: 18px;
+				color: #6b7280;
+				margin: 0;
+				font-weight: 400;
+			}
+
+			.footer {
+				text-align: center;
+				margin-top: 48px;
+				animation: fadeIn 1s ease-out 0.3s both;
+			}
+
+			.footer-text {
+				font-size: 14px;
+				color: #9ca3af;
+				margin: 0;
+			}
+
+			/* Responsive Design */
+			@media (max-width: 768px) {
+				.carousel-container {
+					grid-template-columns: 1fr;
+					grid-template-rows: 1fr auto;
+				}
+
+				.content-section {
+					padding: 32px 24px;
+				}
+
+				.model-name {
+					font-size: 36px;
+				}
+
+				.image-section {
+					min-height: 400px;
+				}
+
+				.nav-overlay {
+					padding: 0 16px;
+				}
+
+				.nav-btn {
+					width: 40px;
+					height: 40px;
+				}
+
+				.title {
+					font-size: 36px;
+				}
+
+				.subtitle {
+					font-size: 16px;
+				}
+
+				.header {
+					margin-bottom: 32px;
+				}
+
+				.footer {
+					margin-top: 32px;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.content-section {
+					padding: 24px 16px;
+				}
+
+				.model-name {
+					font-size: 28px;
+				}
+
+				.image-section {
+					min-height: 300px;
+				}
+
+				.title {
+					font-size: 28px;
+				}
+
+				.subtitle {
+					font-size: 14px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="header fade-in">
+				<h1 class="title">Tailbase Demo</h1>
+				<p class="subtitle">Experience Bootstrap components with Tailwind's modern aesthetic</p>
+			</div>
+
+			<!-- Carousel Component -->
+			<div class="carousel fade-in" tabindex="0" role="region" aria-label="Image carousel">
+				<div class="carousel-container">
+					<div class="image-section">
+						<div class="image-container">
+							<div class="image-slide active">
+								<img
+									src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop&crop=center"
+									alt="Modern Architecture"
+								/>
+							</div>
+							<div class="image-slide">
+								<img
+									src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&crop=center"
+									alt="Urban Landscape"
+								/>
+							</div>
+							<div class="image-slide">
+								<img
+									src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=800&h=600&fit=crop&crop=center"
+									alt="Contemporary Design"
+								/>
+							</div>
+							<div class="image-slide">
+								<img
+									src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop&crop=center"
+									alt="Glass Building"
+								/>
+							</div>
+						</div>
+
+						<!-- Navigation Overlay -->
+						<div class="nav-overlay">
+							<button class="nav-btn" id="prevBtn" aria-label="Previous image">
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+								>
+									<polyline points="15,18 9,12 15,6"></polyline>
+								</svg>
+							</button>
+							<button class="nav-btn" id="nextBtn" aria-label="Next image">
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+								>
+									<polyline points="9,18 15,12 9,6"></polyline>
+								</svg>
+							</button>
+						</div>
+
+						<!-- Dot Indicators -->
+						<div class="dot-indicators">
+							<button class="dot active" data-slide="0" aria-label="Go to slide 1"></button>
+							<button class="dot" data-slide="1" aria-label="Go to slide 2"></button>
+							<button class="dot" data-slide="2" aria-label="Go to slide 3"></button>
+							<button class="dot" data-slide="3" aria-label="Go to slide 4"></button>
+						</div>
+					</div>
+
+					<div class="content-section">
+						<div class="content-container">
+							<div class="content-header">
+								<h2 class="model-name" id="slideTitle">Modern Architecture</h2>
+								<p class="model-location" id="slideLocation">New York, USA</p>
+								<span class="model-category" id="slideCategory">Architecture</span>
+							</div>
+
+							<div class="content-body">
+								<p class="model-description" id="slideDescription">
+									Discover the beauty of contemporary architectural design with clean lines,
+									innovative materials, and sustainable practices that define modern urban
+									landscapes.
+								</p>
+							</div>
+
+							<div class="content-footer">
+								<button class="cta-button">
+									Explore More
+									<svg
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<path d="M5 12h14M12 5l7 7-7 7" />
+									</svg>
+								</button>
+							</div>
+
+							<div class="slide-indicators">
+								<div class="indicators-container">
+									<button class="indicator-btn" id="indicatorPrev" aria-label="Previous slide">
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+										>
+											<polyline points="15,18 9,12 15,6"></polyline>
+										</svg>
+									</button>
+									<span class="slide-counter" id="slideCounter">1 / 4</span>
+									<button class="indicator-btn" id="indicatorNext" aria-label="Next slide">
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+										>
+											<polyline points="9,18 15,12 9,6"></polyline>
+										</svg>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Additional Content Sections -->
+			<section style="margin-top: 80px" class="fade-in">
+				<div style="text-align: center; margin-bottom: 48px">
+					<h2 style="font-size: 36px; font-weight: 700; color: #1a1a1a; margin: 0 0 16px 0">
+						Features Showcase
+					</h2>
+					<p style="font-size: 18px; color: #6b7280; margin: 0">
+						Explore the components and animations built into Tailbase
+					</p>
+				</div>
+
+				<div
+					style="
+						display: grid;
+						grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+						gap: 32px;
+						max-width: 1200px;
+						margin: 0 auto;
+					"
+				>
+					<div
+						style="
+							background: white;
+							padding: 32px;
+							border-radius: 16px;
+							box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+							transition: transform 0.3s ease;
+						"
+					>
+						<h3 style="font-size: 24px; font-weight: 600; color: #1a1a1a; margin: 0 0 16px 0">
+							Smooth Animations
+						</h3>
+						<p style="color: #6b7280; line-height: 1.6; margin: 0 0 24px 0">
+							Built-in fade-in animations and smooth transitions create a polished user experience.
+						</p>
+						<div class="fade-in" style="animation-delay: 0.2s; animation-fill-mode: both">
+							<div
+								style="
+									width: 100%;
+									height: 8px;
+									background: #f3f4f6;
+									border-radius: 4px;
+									overflow: hidden;
+								"
+							>
+								<div
+									style="
+										width: 80%;
+										height: 100%;
+										background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+										border-radius: 4px;
+										animation: slideIn 2s ease-out;
+									"
+								></div>
+							</div>
+						</div>
+					</div>
+
+					<div
+						style="
+							background: white;
+							padding: 32px;
+							border-radius: 16px;
+							box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+							transition: transform 0.3s ease;
+						"
+					>
+						<h3 style="font-size: 24px; font-weight: 600; color: #1a1a1a; margin: 0 0 16px 0">
+							Responsive Design
+						</h3>
+						<p style="color: #6b7280; line-height: 1.6; margin: 0 0 24px 0">
+							Mobile-first approach with thoughtful breakpoints for all device sizes.
+						</p>
+						<div style="display: flex; gap: 8px; align-items: center">
+							<div style="width: 24px; height: 16px; background: #3b82f6; border-radius: 2px"></div>
+							<div style="width: 16px; height: 24px; background: #8b5cf6; border-radius: 2px"></div>
+							<div style="width: 12px; height: 18px; background: #06d6a0; border-radius: 2px"></div>
+						</div>
+					</div>
+
+					<div
+						style="
+							background: white;
+							padding: 32px;
+							border-radius: 16px;
+							box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+							transition: transform 0.3s ease;
+						"
+					>
+						<h3 style="font-size: 24px; font-weight: 600; color: #1a1a1a; margin: 0 0 16px 0">
+							Interactive Components
+						</h3>
+						<p style="color: #6b7280; line-height: 1.6; margin: 0 0 24px 0">
+							Fully accessible carousel with keyboard navigation and smooth transitions.
+						</p>
+						<button
+							style="
+								background: #1a1a1a;
+								color: white;
+								border: none;
+								padding: 8px 16px;
+								border-radius: 6px;
+								font-size: 14px;
+								cursor: pointer;
+								transition: all 0.3s ease;
+							"
+							onmouseover="this.style.transform='translateY(-2px)'"
+							onmouseout="this.style.transform='translateY(0)'"
+						>
+							Try It Out
+						</button>
+					</div>
+				</div>
+			</section>
+
+			<div class="footer fade-in">
+				<p class="footer-text">Built with Tailbase - Modern, accessible, and beautiful</p>
+			</div>
+		</main>
+
+		<script>
+			// Custom carousel for demo2 page (uses different HTML structure than standard Tailbase carousel)
+			class TailbaseCarouselDemo {
+				constructor() {
+					this.currentSlide = 0;
+					this.slides = document.querySelectorAll('.image-slide');
+					this.dots = document.querySelectorAll('.dot');
+					this.totalSlides = this.slides.length;
+
+					// Content data for each slide
+					this.slideData = [
+						{
+							title: 'Modern Architecture',
+							location: 'New York, USA',
+							category: 'Architecture',
+							description:
+								'Discover the beauty of contemporary architectural design with clean lines, innovative materials, and sustainable practices that define modern urban landscapes.'
+						},
+						{
+							title: 'Urban Landscape',
+							location: 'Tokyo, Japan',
+							category: 'Cityscape',
+							description:
+								'Experience the dynamic energy of urban environments where traditional culture meets cutting-edge technology in perfect harmony.'
+						},
+						{
+							title: 'Contemporary Design',
+							location: 'London, UK',
+							category: 'Interior',
+							description:
+								'Explore minimalist interior design principles that emphasize functionality, clean aesthetics, and thoughtful use of space and light.'
+						},
+						{
+							title: 'Glass Building',
+							location: 'Dubai, UAE',
+							category: 'Commercial',
+							description:
+								'Marvel at the engineering excellence of modern commercial architecture that combines sustainability with breathtaking visual impact.'
+						}
+					];
+
+					this.init();
+				}
+
+				init() {
+					// Add event listeners
+					document.getElementById('prevBtn').addEventListener('click', () => this.prevSlide());
+					document.getElementById('nextBtn').addEventListener('click', () => this.nextSlide());
+					document
+						.getElementById('indicatorPrev')
+						.addEventListener('click', () => this.prevSlide());
+					document
+						.getElementById('indicatorNext')
+						.addEventListener('click', () => this.nextSlide());
+
+					// Dot indicators
+					this.dots.forEach((dot, index) => {
+						dot.addEventListener('click', () => this.goToSlide(index));
+					});
+
+					// Keyboard navigation
+					document.querySelector('.carousel').addEventListener('keydown', (e) => {
+						if (e.key === 'ArrowLeft') this.prevSlide();
+						if (e.key === 'ArrowRight') this.nextSlide();
+					});
+				}
+
+				goToSlide(index) {
+					// Remove active class from current slide
+					this.slides[this.currentSlide].classList.remove('active');
+					this.dots[this.currentSlide].classList.remove('active');
+
+					// Update current slide
+					this.currentSlide = index;
+
+					// Add active class to new slide
+					this.slides[this.currentSlide].classList.add('active');
+					this.dots[this.currentSlide].classList.add('active');
+
+					// Update content
+					this.updateContent();
+
+					// Update counter
+					document.getElementById('slideCounter').textContent =
+						`${this.currentSlide + 1} / ${this.totalSlides}`;
+				}
+
+				nextSlide() {
+					const nextIndex = (this.currentSlide + 1) % this.totalSlides;
+					this.goToSlide(nextIndex);
+				}
+
+				prevSlide() {
+					const prevIndex = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+					this.goToSlide(prevIndex);
+				}
+
+				updateContent() {
+					const data = this.slideData[this.currentSlide];
+					document.getElementById('slideTitle').textContent = data.title;
+					document.getElementById('slideLocation').textContent = data.location;
+					document.getElementById('slideCategory').textContent = data.category;
+					document.getElementById('slideDescription').textContent = data.description;
+				}
+			}
+
+			// Initialize carousel when DOM is loaded
+			document.addEventListener('DOMContentLoaded', () => {
+				new TailbaseCarouselDemo();
+			});
+
+			// Add slide-in animation for progress bar
+			const style = document.createElement('style');
+			style.textContent = `
+            @keyframes slideIn {
+                from {
+                    width: 0%;
+                }
+                to {
+                    width: 80%;
+                }
+            }
+        `;
+			document.head.appendChild(style);
+		</script>
+	</body>
+</html>

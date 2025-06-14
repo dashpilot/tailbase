@@ -902,14 +902,56 @@
 
 		<script src="tailbase.js"></script>
 		<script>
-			// Demo-specific JavaScript
-			function openModal() {
-				window.openModal('demo-modal');
+			// Modal functionality
+			window.openModal = function (modalId) {
+				const modal = document.getElementById(modalId);
+				if (modal) {
+					modal.classList.add('show');
+					document.body.style.overflow = 'hidden';
+				}
+			};
+
+			window.closeModal = function (modalId) {
+				const modal = document.getElementById(modalId);
+				if (modal) {
+					modal.classList.remove('show');
+					document.body.style.overflow = '';
+				}
+			};
+
+			// Carousel functionality
+			let currentSlide = 0;
+			const slides = document.querySelectorAll('#demo-carousel .carousel-item');
+			const indicators = document.querySelectorAll('#demo-carousel .carousel-indicator');
+
+			function showSlide(index) {
+				// Remove active class from all slides and indicators
+				slides.forEach((slide) => slide.classList.remove('active'));
+				indicators.forEach((indicator) => indicator.classList.remove('active'));
+
+				// Add active class to current slide and indicator
+				slides[index].classList.add('active');
+				indicators[index].classList.add('active');
+
+				currentSlide = index;
 			}
 
-			function closeModal() {
-				window.closeModal('demo-modal');
+			function nextSlide() {
+				const next = (currentSlide + 1) % slides.length;
+				showSlide(next);
 			}
+
+			function prevSlide() {
+				const prev = (currentSlide - 1 + slides.length) % slides.length;
+				showSlide(prev);
+			}
+
+			function goToSlide(index) {
+				showSlide(index);
+			}
+
+			// Initialize carousel
+			showSlide(0);
 		</script>
 	</body>
 </html>
